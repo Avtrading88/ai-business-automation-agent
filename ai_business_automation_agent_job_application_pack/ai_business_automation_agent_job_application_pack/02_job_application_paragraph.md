@@ -1,3 +1,0 @@
-# Job Application Paragraph
-
-One of my strongest portfolio projects is an AI Business Automation Agent built with Python, Pandas, Streamlit, SQLite, Pytest, Docker, and GitHub Actions. The project automates common business data workflows such as reading spreadsheet data, cleaning records, validating missing or invalid fields, detecting duplicates, generating clean CRM-ready outputs, and creating audit reports. I also added approval workflows, role-based access, logging, file versioning, backups, scheduled jobs, and safe dry-run planning for HubSpot and QuickBooks integrations. This project shows my ability to combine data processing, automation, software structure, testing, documentation, and business thinking into a practical solution.
