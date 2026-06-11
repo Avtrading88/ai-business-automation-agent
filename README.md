@@ -48,7 +48,7 @@ Make sure `.env`, real customer files, SQLite databases, QuickBooks tokens, HubS
 
 ## Repository preview
 
-![Business Automation Agent dashboard placeholder](docs/screenshots/dashboard_data_processing.svg)
+![Business Automation Agent dashboard placeholder](docs/screenshots/Dashboard.png)
 
 ## Why this project is useful
 
@@ -63,13 +63,13 @@ Make sure `.env`, real customer files, SQLite databases, QuickBooks tokens, HubS
 
 ## Visual tour
 
-| Dashboard | QuickBooks OAuth | Audit Log |
-|---|---|---|
-| ![Data processing](docs/screenshots/dashboard_data_processing.svg) | ![QuickBooks OAuth](docs/screenshots/quickbooks_oauth_setup.svg) | ![Audit log](docs/screenshots/audit_log.svg) |
+| Dashboard                                          | QuickBooks OAuth                                 | Audit Log                                    |
+|----------------------------------------------------|--------------------------------------------------|----------------------------------------------|
+| ![Data processing](docs/screenshots/Dashboard.png) | ![QuickBooks OAuth](docs/screenshots/QuickBooks OAuth Setup.png) | ![Audit log](docs/screenshots/audit log.png) |
 
-| Settings Admin | File Versions | System Backups |
-|---|---|---|
-| ![Settings admin](docs/screenshots/settings_admin.svg) | ![File versions](docs/screenshots/file_versions.svg) | ![System backups](docs/screenshots/system_backups.svg) |
+| Settings Admin                                   | File Versions                                        | System Backups |
+|--------------------------------------------------|------------------------------------------------------|---|
+| ![Settings admin](docs/screenshots/Settings.png) | ![File versions](docs/screenshots/File Versions.png) | ![System backups](docs/screenshots/System Backups.png) |
 
 ---
 

@@ -29,7 +29,7 @@ from automation_agent.core.scheduler import ScheduledJobManager
 from automation_agent.core.system_backup import SystemBackupManager
 
 st.set_page_config(
-    page_title="Business Automation Agent V24",
+    page_title="Business Automation Agent",
     page_icon="🤖",
     layout="wide",
 )
@@ -209,7 +209,8 @@ def show_quickbooks_oauth_setup(config: dict) -> None:
 def show_role_rules(config: dict) -> None:
     st.subheader("👥 Role-Based Approval Rules")
     st.caption(
-        "V20 uses login authentication, dashboard user management, settings admin, and file versioning, so the user role is selected automatically from the signed-in account."
+        "Manage application access, user roles, and authentication settings. "
+        "Administrators can review configured users, monitor login activity, and control access to sensitive automation workflows."
     )
     role_guard = RoleBasedApproval(config, config.get("output", {}).get("folder", "data/output"))
     matrix_df = role_guard.read_permission_matrix()
@@ -273,7 +274,7 @@ def render_auth_gate(config: dict):
 
     current_user = auth_manager.from_session_dict(st.session_state.auth_user)
     if not current_user:
-        st.title("🤖 Business Automation Agent V24")
+        st.title("🤖 Business Automation Agent")
         st.info("Please sign in from the sidebar to use the automation dashboard.")
         st.warning(
             "For production, replace this local demo login with SSO/OAuth such as Google Workspace, Azure AD, Auth0, or another identity provider."
@@ -284,9 +285,11 @@ def render_auth_gate(config: dict):
 
 
 def show_auth_admin(config: dict, current_user: dict) -> None:
-    st.subheader("🔐 Authentication")
+    st.subheader("🔐 Access Control")
     st.caption(
-        "V20 includes dashboard user management, settings admin, file versioning, and rollback. Admins can add users, change roles, deactivate/reactivate users, and reset passwords without editing config.yaml."
+        "Manage application access, user roles, and authentication settings. "
+        "Administrators can review configured users, monitor login activity, and control access "
+        "to sensitive automation workflows."
     )
     output_folder = config.get("output", {}).get("folder", "data/output")
     auth_manager = AuthManager(config, output_folder)
@@ -296,11 +299,11 @@ def show_auth_admin(config: dict, current_user: dict) -> None:
     c2.metric("Role", current_user.get("role", ""))
     c3.metric("Auth enabled", "Yes" if auth_manager.enabled else "No")
 
-    st.write("**Configured users**")
+    st.write("**Registered Users**")
     users_df = auth_manager.users_dataframe()
     st.dataframe(users_df, use_container_width=True, hide_index=True)
 
-    st.write("**Login events**")
+    st.write("**Authentication Activity**")
     events_df = auth_manager.read_login_events()
     if events_df.empty:
         st.info("No login events recorded yet.")
@@ -319,14 +322,15 @@ def show_auth_admin(config: dict, current_user: dict) -> None:
         )
     else:
         st.success(
-            "Admin role detected. Open the User Management tab to add, deactivate, update roles, or reset passwords."
+            "Administrator access confirmed. You can manage users, roles, permissions, "
+            "and security settings from the User Management panel."
         )
 
 
 def show_user_management(config: dict, current_user: dict) -> None:
     st.subheader("👤 User Management")
     st.caption(
-        "V20 lets admins manage local MVP users from the dashboard instead of editing config.yaml manually."
+        "Administrators can manage users, roles, account status, and access permissions from a centralized dashboard."
     )
 
     output_folder = config.get("output", {}).get("folder", "data/output")
@@ -444,7 +448,7 @@ def show_user_management(config: dict, current_user: dict) -> None:
 def show_database_admin(config: dict, current_user: dict) -> None:
     st.subheader("🗄️ SQLite Database")
     st.caption(
-        "V20 stores users, approvals, audit events, role decisions, login events, and processing runs in one local SQLite database while keeping CSV/JSON downloads for convenience."
+        "Stores users, approvals, audit events, role decisions, login events, and processing runs in one local SQLite database while keeping CSV/JSON downloads for convenience."
     )
 
     output_folder = Path(config.get("output", {}).get("folder", "data/output"))
@@ -490,7 +494,7 @@ def show_database_admin(config: dict, current_user: dict) -> None:
 
     with st.expander("Import existing JSONL logs into SQLite", expanded=False):
         st.caption(
-            "Use this once if you already created JSONL logs before opening V20. New events are written to SQLite automatically."
+            "New events are written to SQLite automatically."
         )
         if current_user.get("role") != "admin":
             st.info("Only admins can import log files into the database.")
@@ -524,7 +528,8 @@ def show_settings_admin(config: dict, current_user: dict) -> None:
     """Admin settings panel for validation, integration, and safety settings."""
     st.subheader("⚙️ Settings / Admin Panel")
     st.caption(
-        "V20 lets admins edit validation rules, CRM settings, QuickBooks settings, and safety settings from the dashboard instead of editing config.yaml manually."
+        "Configure data quality rules, integration settings, approval controls, "
+        "and system behavior from one secure administration panel."
     )
 
     output_folder = config.get("output", {}).get("folder", "data/output")
@@ -1261,24 +1266,25 @@ def main() -> None:
     config = load_config()
     current_user = render_auth_gate(config)
 
-    st.title("🤖 Business Automation Agent V24")
+    st.title("🤖 Business Automation Agent")
     st.write(
-        "Upload a CSV or Excel file, clean and validate customer/contact data, "
-        "review CRM-ready rows, prepare HubSpot and QuickBooks plans, and manage login users/roles from the dashboard."
+        "Upload business spreadsheet data, validate and standardize records, "
+        "detect duplicates, generate audit-ready reports, and prepare safe CRM or accounting system updates."
     )
 
     with st.sidebar:
-        st.header("Validation Settings")
+        st.header("Data Quality Rules:")
         validation = config.get("validation", {})
-        st.write("**Required columns:**")
-        st.code(", ".join(validation.get("required_columns", [])) or "None")
-        st.write("**Duplicate check columns:**")
-        st.code(", ".join(validation.get("duplicate_key_columns", [])) or "None")
-        st.write("**Identity rule:**")
+        st.write("**Required Fields:**")
+        st.code(", ".join(validation.get("Required Fields", [])) or "None")
+        st.write("**Duplicate Detection Fields:**")
+        st.code(", ".join(validation.get("Duplicate Detection FieldsIdentity rule", [])) or "None")
+        st.write("**Record Identity Rule:**")
         st.code("At least one of: " + ", ".join(validation.get("at_least_one_required_group", [])))
         st.divider()
         st.warning(
-            "HubSpot and QuickBooks are safe by default. V24 adds GitHub Actions CI/CD, automated tests, security checks, Docker build checks, and local CI scripts."
+            "External CRM and accounting integrations run in safe review mode by default. Data is validated, "
+            "logged, and prepared for approval before any production sync is enabled."
         )
 
     (
@@ -1295,7 +1301,7 @@ def main() -> None:
         processing_tab,
     ) = st.tabs(
         [
-            "Authentication",
+            "Access Control",
             "User Management",
             "Settings Admin",
             "Database",
@@ -1479,7 +1485,7 @@ def main() -> None:
         with tab_quickbooks:
             st.subheader("QuickBooks-ready export")
             st.caption(
-                "V20 creates reviewable customer/invoice files, CustomerRef cache, QuickBooks API payload previews, and a protected sandbox sync flow. Approval role comes from the signed-in user."
+                "Creates reviewable customer/invoice files, CustomerRef cache, QuickBooks API payload previews, and a protected sandbox sync flow. Approval role comes from the signed-in user."
             )
             try:
                 qb_connector = QuickBooksConnector(config)
