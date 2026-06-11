@@ -63,9 +63,9 @@ Make sure `.env`, real customer files, SQLite databases, QuickBooks tokens, HubS
 
 ## Visual tour
 
-| Dashboard | QuickBooks OAuth | Audit Log |
-|---|---|---|
-| ![Dashboard](docs/screenshots/dashboard.png) | ![QuickBooks OAuth](docs/screenshots/quickbooks-oauth-setup.png) | ![Audit Log](docs/screenshots/audit-log.png) |
+| Dashboard                                    | QuickBooks OAuth | Audit Log |
+|----------------------------------------------|---|---|
+| ![Dashboard](docs/screenshots/Dashboard.png) | ![QuickBooks OAuth](docs/screenshots/quickbooks-oauth-setup.png) | ![Audit Log](docs/screenshots/audit-log.png) |
 
 | Settings Admin | File Versions | System Backups |
 |---|---|---|
