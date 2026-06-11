@@ -1,0 +1,3 @@
+# Cover Letter Project Paragraph
+
+In addition to my practical experience with Python and data analysis, I recently built an AI Business Automation Agent as a portfolio project. The application automates business data preparation by reading CSV and Excel files, cleaning and validating records, detecting duplicates, generating reports, and preparing CRM/QuickBooks-ready outputs. I also implemented a Streamlit dashboard, role-based approval workflows, audit logs, SQLite storage, automated tests, Docker support, and GitHub Actions CI/CD. This project reflects my ability to build practical, structured, and business-oriented data automation solutions.
