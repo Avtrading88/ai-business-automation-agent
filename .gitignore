@@ -1,0 +1,65 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+!.env.dev.example
+!.env.prod.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Python
+.venv/
+venv/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Logs
+logs/*.log
+*.log
+
+# Generated outputs / local state / customer data
+data/output/*.json
+data/output/*.csv
+data/output/*.xlsx
+data/output/*.db
+data/output/*.db-journal
+data/output/*.jsonl
+data/output/*.txt
+data/output/config_backups/
+data/output/system_backups/
+data/output/system_restore_staging/
+data/output/versioned_runs/
+!data/output/.gitkeep
+
+# Local scheduled-processing folders may contain customer/accounting data
+data/scheduled_input/*
+data/scheduled_archive/*
+data/scheduled_errors/*
+!data/scheduled_input/.gitkeep
+!data/scheduled_archive/.gitkeep
+!data/scheduled_errors/.gitkeep
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/

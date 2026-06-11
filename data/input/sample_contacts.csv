@@ -1,0 +1,7 @@
+First Name,Last Name,Email,Phone,Company,City,Country
+john,doe, JOHN.DOE@Example.com ,+49 170 1234567,Acme GmbH,Berlin,Germany
+jane,smith,jane.smith@example.com,0170-998877,Future Analytics,Munich,Germany
+,NoEmail,,+49 30 555555,Missing Mail Co,Hamburg,Germany
+John,Doe,john.doe@example.com,+49 170 1234567,Acme GmbH,Berlin,Germany
+Bob,,wrong-email,12345,Test Company,Frankfurt,Germany
+,,company@example.com,+1 555 111 2222,Only Company LLC,New York,USA

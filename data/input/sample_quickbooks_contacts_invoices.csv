@@ -1,0 +1,5 @@
+first_name,last_name,email,phone,company,city,country,invoice_number,invoice_date,due_date,description,quantity,unit_price,amount,currency
+Anna,Schmidt,anna.schmidt@example.com,+49 170 1234567,Schmidt Consulting,Berlin,Germany,INV-1001,2026-06-01,2026-06-15,Automation setup,1,450,450,EUR
+Markus,Weber,markus.weber@example.com,+49 160 7654321,Weber GmbH,Munich,Germany,INV-1002,2026-06-03,2026-06-17,Data cleanup service,2,200,400,EUR
+Sofia,Rossi,sofia.rossi@example.com,+39 333 222111,Rossi Studio,Rome,Italy,INV-1003,2026-06-05,2026-06-20,CRM preparation,1,300,300,EUR
+Anna,Schmidt,anna.schmidt@example.com,+49 170 1234567,Schmidt Consulting,Berlin,Germany,INV-1001,2026-06-01,2026-06-15,Duplicate invoice row,1,450,450,EUR

@@ -1,0 +1,41 @@
+name: Security Checks
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  secret-safety:
+    name: Secret and unsafe file check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Block committed environment secrets
+        run: |
+          if [ -f ".env" ]; then
+            echo "ERROR: .env must not be committed. Use .env.example, .env.dev.example, or .env.prod.example instead."
+            exit 1
+          fi
+
+      - name: Block committed local SQLite database
+        run: |
+          if find . -path "*/data/output/automation_agent.db" -type f | grep -q .; then
+            echo "ERROR: data/output/automation_agent.db contains local/private state and must not be committed."
+            exit 1
+          fi
+
+      - name: Block committed QuickBooks token values
+        run: |
+          if grep -R --exclude-dir=.git --exclude='*.md' --exclude='.env.example' --exclude='.env.dev.example' --exclude='.env.prod.example' -E "QUICKBOOKS_(ACCESS_TOKEN|REFRESH_TOKEN)=.+" .; then
+            echo "ERROR: Possible QuickBooks token committed."
+            exit 1
+          fi

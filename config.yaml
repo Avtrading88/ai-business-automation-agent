@@ -1,0 +1,205 @@
+project:
+  name: Business Automation Agent V24
+  version: 24.0.0
+input:
+  default_file: data/input/sample_contacts.csv
+output:
+  folder: data/output
+  clean_file: crm_ready_contacts.csv
+  rejected_file: rejected_rows.csv
+  duplicates_file: duplicates_removed.csv
+  report_file: report.txt
+validation:
+  required_columns:
+  - email
+  at_least_one_required_group:
+  - first_name
+  - last_name
+  - company
+  duplicate_key_columns:
+  - email
+  allowed_countries:
+  - germany
+  - united states
+  - usa
+  - united kingdom
+  - uk
+  - france
+  - spain
+  - italy
+  - bulgaria
+  max_missing_percentage_warning: 20
+cleaning:
+  lowercase_email: true
+  normalize_phone: true
+  title_case_names: true
+  title_case_company: false
+approval:
+  require_human_approval: true
+  history_csv_file: approval_history.csv
+  history_jsonl_file: approval_history.jsonl
+  latest_manifest_file: latest_approval_manifest.json
+  role_based:
+    enabled: true
+    default_role: reviewer
+    permission_decision_file: role_permission_decisions.jsonl
+    permission_matrix_file: role_permission_matrix.csv
+    roles:
+      viewer:
+        description: Can view reports and output files only.
+        permissions:
+          view_outputs: true
+          approve_exports: false
+          approve_crm_sync: false
+          approve_quickbooks_sandbox_sync: false
+          approve_quickbooks_production_sync: false
+          manage_settings: false
+      reviewer:
+        description: Can review data and approve export-only flows.
+        permissions:
+          view_outputs: true
+          approve_exports: true
+          approve_crm_sync: false
+          approve_quickbooks_sandbox_sync: false
+          approve_quickbooks_production_sync: false
+          manage_settings: false
+      approver:
+        description: Can approve CRM sync and QuickBooks sandbox sync.
+        permissions:
+          view_outputs: true
+          approve_exports: true
+          approve_crm_sync: true
+          approve_quickbooks_sandbox_sync: true
+          approve_quickbooks_production_sync: false
+          manage_settings: false
+      admin:
+        description: Can approve sandbox and production flows and manage settings.
+        permissions:
+          view_outputs: true
+          approve_exports: true
+          approve_crm_sync: true
+          approve_quickbooks_sandbox_sync: true
+          approve_quickbooks_production_sync: true
+          manage_settings: true
+integrations:
+  crm_enabled: true
+  crm_provider: hubspot
+  quickbooks_enabled: true
+  quickbooks:
+    enabled: true
+    dry_run: true
+    mode: export_only
+    environment: sandbox
+    minor_version: 75
+    redirect_uri: http://localhost:8501
+    customers_file: quickbooks_customers_ready.csv
+    invoices_file: quickbooks_invoices_ready.csv
+    excel_file: quickbooks_ready_export.xlsx
+    customer_payload_file: quickbooks_customer_payload_preview.json
+    invoice_payload_file: quickbooks_invoice_payload_preview.json
+    api_plan_file: quickbooks_api_sync_plan.json
+    customer_ref_cache_file: quickbooks_customer_ref_cache.json
+    unresolved_customer_refs_file: quickbooks_unresolved_customer_refs.json
+    oauth_token_summary_file: quickbooks_oauth_token_summary.json
+    sync_result_file: quickbooks_api_sync_result.json
+    allow_production_sync: false
+    default_item_ref_id: ''
+    enable_customer_lookup: true
+    invoice_required_columns:
+    - invoice_number
+    - amount
+  hubspot:
+    enabled: false
+    dry_run: true
+    operation: plan
+    id_property: email
+    check_existing_before_sync: true
+    batch_size: 100
+    payload_preview_file: data/output/hubspot_payload_preview.json
+    sync_plan_file: data/output/hubspot_sync_plan.json
+    property_mapping:
+      email: email
+      first_name: firstname
+      last_name: lastname
+      phone: phone
+      company: company
+      city: city
+      country: country
+auth:
+  enabled: true
+  login_required: true
+  session_timeout_minutes: 120
+  login_events_file: auth_login_events.jsonl
+  user_store_file: auth_users.json
+  user_management_events_file: auth_user_management_events.jsonl
+  users:
+  - username: viewer
+    display_name: Demo Viewer
+    email: viewer@example.com
+    role: viewer
+    active: true
+    password_hash: pbkdf2_sha256$260000$ecfe1909dbc79f670696abfbaafe35bc$4756a670add0600c916cc0485f8a50704eff9f59f22330bdef26a7ac3cde26a6
+  - username: reviewer
+    display_name: Demo Reviewer
+    email: reviewer@example.com
+    role: reviewer
+    active: true
+    password_hash: pbkdf2_sha256$260000$1295cdd0266a206a033db9de5cb8c572$3c195f2e51453ced44f3b57e6e6368036f3c7b1ee4e971c02ea4738129b48aaa
+  - username: approver
+    display_name: Demo Approver
+    email: approver@example.com
+    role: approver
+    active: true
+    password_hash: pbkdf2_sha256$260000$368d31335a886fb84f38ca14b54617a0$03d49b681e8c8cbd1527e4b3bab1bfd5897aac7ae5e8aa98594c5e1857d1157a
+  - username: admin
+    display_name: Demo Admin
+    email: admin@example.com
+    role: admin
+    active: true
+    password_hash: pbkdf2_sha256$260000$8297449086dad9fe1713e3ce0f7dacf5$571740d0150a0d6b221653d5e1d350b43385d762d1c0abd6cafb64cf430a7d11
+database:
+  enabled: true
+  path: data/output/automation_agent.db
+  mirror_csv_json_outputs: true
+scheduler:
+  enabled: true
+  jobs_file: data/output/scheduled_jobs.json
+  events_file: data/output/scheduled_job_events.jsonl
+  default_input_folder: data/scheduled_input
+  default_archive_folder: data/scheduled_archive
+  default_error_folder: data/scheduled_errors
+  max_files_per_run: 25
+  safe_mode: true
+notifications:
+  email:
+    enabled: true
+    dry_run: true
+    notify_on_success: true
+    notify_on_failure: true
+    notify_on_rejected_rows: true
+    smtp_host: ${SMTP_HOST}
+    smtp_port: 587
+    use_tls: true
+    from_email: ${SMTP_FROM_EMAIL}
+    username: ${SMTP_USERNAME}
+    recipients:
+    - admin@example.com
+    subject_prefix: '[Business Automation Agent]'
+    preview_file: data/output/latest_email_notification_preview.txt
+    event_file: data/output/email_notification_events.jsonl
+file_versioning:
+  enabled: true
+  runs_folder: data/output/versioned_runs
+  manifest_index_file: data/output/file_version_index.jsonl
+  latest_run_manifest_file: data/output/latest_run_manifest.json
+  restore_log_file: data/output/rollback_events.jsonl
+system_backup:
+  enabled: true
+  backups_folder: data/output/system_backups
+  restore_folder: data/output/system_restore_staging
+  index_file: data/output/system_backup_index.jsonl
+  restore_events_file: data/output/system_restore_events.jsonl
+  include_output_files: true
+  include_versioned_runs: true
+  include_database: true
+  include_env: false

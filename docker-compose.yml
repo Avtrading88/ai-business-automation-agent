@@ -1,0 +1,22 @@
+services:
+  business-automation-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: business_automation_agent
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      APP_ENV: production
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - ./data/input:/app/data/input
+      - ./data/output:/app/data/output
+      - ./data/scheduled_input:/app/data/scheduled_input
+      - ./data/scheduled_archive:/app/data/scheduled_archive
+      - ./data/scheduled_errors:/app/data/scheduled_errors
+      - ./logs:/app/logs
+      - ./config.yaml:/app/config.yaml
+    restart: unless-stopped
